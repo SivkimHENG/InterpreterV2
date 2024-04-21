@@ -7,5 +7,10 @@ public class Main {
         System.out.printf("Hello and welcome!");
         int a = 10;
         System.out.println(a);
+
+
+        System.out.println("Can i commit?");
+
+
         }
     }
