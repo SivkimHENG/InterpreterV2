@@ -14,11 +14,12 @@ public class Scanner {
     Scanner(String source) {
     this.source = source;}
     List<Token> scanTokens() {
-        while(!isAtEnd()){
+        while (!isAtEnd()) {
             start = current;
             scanTokens();
         }
-        tokens.add(new Token(EOF,"",null,line));
+        tokens.add(new Token(TokenType.EOF, "", null, line));
+                return scanTokens();
     }
     private boolean isAtEnd(){
         return current >= source.length();
@@ -61,7 +62,7 @@ public class Scanner {
             case '"': string(); break;
             case 'o':
                 if(match('r')) {
-                    addToken(OR);
+                    addToken(TokenType.OR);
                 }
                     break;
 
@@ -69,7 +70,7 @@ public class Scanner {
                 if(isDigit(c)){
                     number();
             } else if(isAlpha(c)){
-                    indentifier();
+                    identifier();
                 }
                 else {
                 Lox.error(line,"Unexpected character...");
@@ -125,7 +126,7 @@ String value = source.substring(start+1,current-1);
             return '\0';
         return source.charAt(current+1);
     }
-    private void indentifier () {
+    private void identifier () {
         while(isAlphaNumberic(peek())) advance();
         String text = source.substring(start,current);
         TokenType type = keywords.get(text);
@@ -138,6 +139,9 @@ String value = source.substring(start+1,current-1);
     }
     private boolean isAlphaNumberic(char c ){
         return isAlpha(c) || isDigit(c);
+    }
+    private boolean isDigit(char c){
+    return c >= '0' && c <= '9';
     }
     private static final Map<String, TokenType> keywords;
 
